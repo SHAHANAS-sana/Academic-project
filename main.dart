@@ -5,8 +5,8 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences_linux/shared_preferences_linux.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
-import 'package:shared_preferences_windows/shared_preferences_windows.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,8 +34,8 @@ class SharedPreferencesDemo extends StatefulWidget {
 class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
   final SharedPreferencesAsyncPlatform? _prefs =
       SharedPreferencesAsyncPlatform.instance;
-  final SharedPreferencesWindowsOptions options =
-      const SharedPreferencesWindowsOptions();
+  final SharedPreferencesLinuxOptions options =
+      const SharedPreferencesLinuxOptions();
   static const String _counterKey = 'counter';
   late Future<int> _counter;
 

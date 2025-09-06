@@ -1,43 +1,31 @@
 // Copyright 2013 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-#include <flutter/method_channel.h>
-#include <flutter/plugin_registrar_windows.h>
-#include <windows.h>
 
-#include <memory>
-#include <optional>
-#include <sstream>
-#include <string>
+#ifndef PACKAGES_URL_LAUNCHER_URL_LAUNCHER_LINUX_LINUX_INCLUDE_URL_LAUNCHER_URL_LAUNCHER_PLUGIN_H_
+#define PACKAGES_URL_LAUNCHER_URL_LAUNCHER_LINUX_LINUX_INCLUDE_URL_LAUNCHER_URL_LAUNCHER_PLUGIN_H_
 
-#include "messages.g.h"
-#include "system_apis.h"
+// A plugin to launch URLs.
 
-namespace url_launcher_windows {
+#include <flutter_linux/flutter_linux.h>
 
-class UrlLauncherPlugin : public flutter::Plugin, public UrlLauncherApi {
- public:
-  static void RegisterWithRegistrar(flutter::PluginRegistrar* registrar);
+G_BEGIN_DECLS
 
-  UrlLauncherPlugin();
+#ifdef FLUTTER_PLUGIN_IMPL
+#define FLUTTER_PLUGIN_EXPORT __attribute__((visibility("default")))
+#else
+#define FLUTTER_PLUGIN_EXPORT
+#endif
 
-  // Creates a plugin instance with the given SystemApi instance.
-  //
-  // Exists for unit testing with mock implementations.
-  UrlLauncherPlugin(std::unique_ptr<SystemApis> system_apis);
+G_DECLARE_FINAL_TYPE(FlUrlLauncherPlugin, fl_url_launcher_plugin, FL,
+                     URL_LAUNCHER_PLUGIN, GObject)
 
-  virtual ~UrlLauncherPlugin();
+FLUTTER_PLUGIN_EXPORT FlUrlLauncherPlugin* fl_url_launcher_plugin_new(
+    FlPluginRegistrar* registrar);
 
-  // Disallow copy and move.
-  UrlLauncherPlugin(const UrlLauncherPlugin&) = delete;
-  UrlLauncherPlugin& operator=(const UrlLauncherPlugin&) = delete;
+FLUTTER_PLUGIN_EXPORT void url_launcher_plugin_register_with_registrar(
+    FlPluginRegistrar* registrar);
 
-  // UrlLauncherApi:
-  ErrorOr<bool> CanLaunchUrl(const std::string& url) override;
-  ErrorOr<bool> LaunchUrl(const std::string& url) override;
+G_END_DECLS
 
- private:
-  std::unique_ptr<SystemApis> system_apis_;
-};
-
-}  // namespace url_launcher_windows
+#endif  // PACKAGES_URL_LAUNCHER_URL_LAUNCHER_LINUX_LINUX_INCLUDE_URL_LAUNCHER_URL_LAUNCHER_PLUGIN_H_
