@@ -1,7 +1,6 @@
 // Copyright 2013 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
 #include "win32_window.h"
 
 #include <flutter_windows.h>
@@ -171,7 +170,7 @@ Win32Window::MessageHandler(HWND hwnd, UINT const message, WPARAM const wparam,
 
       return 0;
     }
-    case WM_SIZE:
+    case WM_SIZE: {
       RECT rect = GetClientArea();
       if (child_content_ != nullptr) {
         // Size and position the child window.
@@ -179,6 +178,7 @@ Win32Window::MessageHandler(HWND hwnd, UINT const message, WPARAM const wparam,
                    rect.bottom - rect.top, TRUE);
       }
       return 0;
+    }
 
     case WM_ACTIVATE:
       if (child_content_ != nullptr) {

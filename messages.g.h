@@ -15,7 +15,7 @@
 #include <optional>
 #include <string>
 
-namespace url_launcher_windows {
+namespace file_selector_windows {
 
 // Generated class from Pigeon.
 
@@ -51,11 +51,94 @@ class ErrorOr {
   const FlutterError& error() const { return std::get<FlutterError>(v_); };
 
  private:
-  friend class UrlLauncherApi;
+  friend class FileSelectorApi;
   ErrorOr() = default;
   T TakeValue() && { return std::get<T>(std::move(v_)); }
 
   std::variant<T, FlutterError> v_;
+};
+
+// Generated class from Pigeon that represents data sent in messages.
+class TypeGroup {
+ public:
+  // Constructs an object setting all fields.
+  explicit TypeGroup(const std::string& label,
+                     const flutter::EncodableList& extensions);
+
+  const std::string& label() const;
+  void set_label(std::string_view value_arg);
+
+  const flutter::EncodableList& extensions() const;
+  void set_extensions(const flutter::EncodableList& value_arg);
+
+ private:
+  static TypeGroup FromEncodableList(const flutter::EncodableList& list);
+  flutter::EncodableList ToEncodableList() const;
+  friend class FileSelectorApi;
+  friend class PigeonCodecSerializer;
+  std::string label_;
+  flutter::EncodableList extensions_;
+};
+
+// Generated class from Pigeon that represents data sent in messages.
+class SelectionOptions {
+ public:
+  // Constructs an object setting all fields.
+  explicit SelectionOptions(bool allow_multiple, bool select_folders,
+                            const flutter::EncodableList& allowed_types);
+
+  bool allow_multiple() const;
+  void set_allow_multiple(bool value_arg);
+
+  bool select_folders() const;
+  void set_select_folders(bool value_arg);
+
+  const flutter::EncodableList& allowed_types() const;
+  void set_allowed_types(const flutter::EncodableList& value_arg);
+
+ private:
+  static SelectionOptions FromEncodableList(const flutter::EncodableList& list);
+  flutter::EncodableList ToEncodableList() const;
+  friend class FileSelectorApi;
+  friend class PigeonCodecSerializer;
+  bool allow_multiple_;
+  bool select_folders_;
+  flutter::EncodableList allowed_types_;
+};
+
+// The result from an open or save dialog.
+//
+// Generated class from Pigeon that represents data sent in messages.
+class FileDialogResult {
+ public:
+  // Constructs an object setting all non-nullable fields.
+  explicit FileDialogResult(const flutter::EncodableList& paths);
+
+  // Constructs an object setting all fields.
+  explicit FileDialogResult(const flutter::EncodableList& paths,
+                            const int64_t* type_group_index);
+
+  // The selected paths.
+  //
+  // Empty if the dialog was canceled.
+  const flutter::EncodableList& paths() const;
+  void set_paths(const flutter::EncodableList& value_arg);
+
+  // The type group index (into the list provided in [SelectionOptions]) of
+  // the group that was selected when the dialog was confirmed.
+  //
+  // Null if no type groups were provided, or the dialog was canceled.
+  const int64_t* type_group_index() const;
+  void set_type_group_index(const int64_t* value_arg);
+  void set_type_group_index(int64_t value_arg);
+
+ private:
+  static FileDialogResult FromEncodableList(const flutter::EncodableList& list);
+  flutter::EncodableList ToEncodableList() const;
+  friend class FileSelectorApi;
+  friend class PigeonCodecSerializer;
+  flutter::EncodableList paths_;
+  std::optional<int64_t> type_group_index_;
 };
 
 class PigeonCodecSerializer : public flutter::StandardCodecSerializer {
@@ -76,28 +159,33 @@ class PigeonCodecSerializer : public flutter::StandardCodecSerializer {
 
 // Generated interface from Pigeon that represents a handler of messages from
 // Flutter.
-class UrlLauncherApi {
+class FileSelectorApi {
  public:
-  UrlLauncherApi(const UrlLauncherApi&) = delete;
-  UrlLauncherApi& operator=(const UrlLauncherApi&) = delete;
-  virtual ~UrlLauncherApi() {}
-  virtual ErrorOr<bool> CanLaunchUrl(const std::string& url) = 0;
-  virtual ErrorOr<bool> LaunchUrl(const std::string& url) = 0;
+  FileSelectorApi(const FileSelectorApi&) = delete;
+  FileSelectorApi& operator=(const FileSelectorApi&) = delete;
+  virtual ~FileSelectorApi() {}
+  virtual ErrorOr<FileDialogResult> ShowOpenDialog(
+      const SelectionOptions& options, const std::string* initial_directory,
+      const std::string* confirm_button_text) = 0;
+  virtual ErrorOr<FileDialogResult> ShowSaveDialog(
+      const SelectionOptions& options, const std::string* initial_directory,
+      const std::string* suggested_name,
+      const std::string* confirm_button_text) = 0;
 
-  // The codec used by UrlLauncherApi.
+  // The codec used by FileSelectorApi.
   static const flutter::StandardMessageCodec& GetCodec();
-  // Sets up an instance of `UrlLauncherApi` to handle messages through the
+  // Sets up an instance of `FileSelectorApi` to handle messages through the
   // `binary_messenger`.
   static void SetUp(flutter::BinaryMessenger* binary_messenger,
-                    UrlLauncherApi* api);
+                    FileSelectorApi* api);
   static void SetUp(flutter::BinaryMessenger* binary_messenger,
-                    UrlLauncherApi* api,
+                    FileSelectorApi* api,
                     const std::string& message_channel_suffix);
   static flutter::EncodableValue WrapError(std::string_view error_message);
   static flutter::EncodableValue WrapError(const FlutterError& error);
 
  protected:
-  UrlLauncherApi() = default;
+  FileSelectorApi() = default;
 };
-}  // namespace url_launcher_windows
+}  // namespace file_selector_windows
 #endif  // PIGEON_MESSAGES_G_H_

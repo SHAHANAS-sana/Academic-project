@@ -1,105 +1,94 @@
-## 2.4.0
+## 0.9.3+2
 
-* Adds `SharedPreferencesAsyncWindows` API.
+* Updates to pigeon 21.
 * Updates minimum supported SDK version to Flutter 3.16/Dart 3.2.
 
-## 2.3.2
-
-* Updates `package:file` version constraints.
-
-## 2.3.1
+## 0.9.3+1
 
 * Adds pub topics to package metadata.
 * Updates minimum supported SDK version to Flutter 3.7/Dart 2.19.
+* Migrates `styleFrom` usage in examples off of deprecated `primary` and `onPrimary` parameters.
 
-## 2.3.0
+## 0.9.3
 
-* Adds `clearWithParameters` and `getAllWithParameters` methods.
-* Updates minimum supported SDK version to Flutter 3.3/Dart 2.18.
+* Adds `getSaveLocation` and deprecates `getSavePath`.
 
-## 2.2.0
+## 0.9.2
 
-* Adds `getAllWithPrefix` and `clearWithPrefix` methods.
+* Adds `getDirectoryPaths` implementation.
 
-## 2.1.5
+## 0.9.1+8
+
+* Sets a cmake_policy compatibility version to fix build warnings.
+* Updates minimum Flutter version to 3.3.
+
+## 0.9.1+7
+
+* Updates to `pigeon` version 9.
+
+## 0.9.1+6
 
 * Clarifies explanation of endorsement in README.
 * Aligns Dart and Flutter SDK constraints.
 
-## 2.1.4
+## 0.9.1+5
 
 * Updates links for the merge of flutter/plugins into flutter/packages.
+* Updates example code for `use_build_context_synchronously` lint.
 * Updates minimum Flutter version to 3.0.
 
-## 2.1.3
+## 0.9.1+4
 
-* Updates code for stricter lint checks.
+* Changes XTypeGroup initialization from final to const.
 
-## 2.1.2
+## 0.9.1+3
 
-* Updates code for stricter lint checks.
-* Updates code for `no_leading_underscores_for_local_identifiers` lint.
+* Updates imports for `prefer_relative_imports`.
 * Updates minimum Flutter version to 2.10.
 
-## 2.1.1
+## 0.9.1+2
 
+* Fixes the problem that the initial directory does not work after completing a file selection.
+
+## 0.9.1+1
+
+* Updates README for endorsement.
+* Updates `flutter_test` to be a `dev_dependencies` entry.
+
+## 0.9.1
+
+* Converts the method channel to Pigeon.
+
+## 0.9.0
+
+* **BREAKING CHANGE**: Methods that take `XTypeGroup`s now throw an
+  `ArgumentError` if any group is not a wildcard (all filter types null or
+  empty), but doesn't include any of the filter types supported by Windows.
+* Ignores deprecation warnings for upcoming styleFrom button API changes.
+
+## 0.8.2+2
+
+* Updates references to the obsolete master branch.
+
+## 0.8.2+1
+
+* Removes unnecessary imports.
 * Fixes library_private_types_in_public_api, sort_child_properties_last and use_key_in_widget_constructors
   lint warnings.
 
-## 2.1.0
+## 0.8.2
 
-* Deprecated `SharedPreferencesWindows.instance` in favor of `SharedPreferencesStorePlatform.instance`.
-
-## 2.0.4
-
-* Removes dependency on `meta`.
-
-## 2.0.3
-
-* Removed obsolete `pluginClass: none` from pubpsec.
-* Fixes newly enabled analyzer options.
-
-## 2.0.2
-
-* Updated installation instructions in README.
-
-## 2.0.1
-
-* Add `implements` to pubspec.yaml.
-* Add `registerWith` to the Dart main class.
-
-## 2.0.0
-
-* Migrate to null-safety.
-
-## 0.0.2+3
-
-* Remove 'ffi' dependency.
-
-## 0.0.2+2
-
-* Relax 'ffi' version constraint.
+* Moves source to flutter/plugins, and restructures to allow for unit testing.
+* Switches to an internal method channel implementation.
 
 ## 0.0.2+1
 
-* Update Flutter SDK constraint.
+* Update README
 
 ## 0.0.2
 
-* Update integration test examples to use `testWidgets` instead of `test`.
-
-## 0.0.1+3
-
-* Remove unused `test` dependency.
-
-## 0.0.1+2
-
-* Check in windows/ directory for example/
-
-## 0.0.1+1
-
-* Add iOS stub for compatibility with 1.17 and earlier.
+* Update SDK constraint to signal compatibility with null safety.
 
 ## 0.0.1
 
-* Initial release to support shared_preferences on Windows.
+* Initial Windows implementation of `file_selector`.
