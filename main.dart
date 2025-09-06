@@ -2,99 +2,44 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// ignore_for_file: public_member_api_docs
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences_linux/shared_preferences_linux.dart';
-import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
+
+import 'get_directory_page.dart';
+import 'get_multiple_directories_page.dart';
+import 'home_page.dart';
+import 'open_image_page.dart';
+import 'open_multiple_images_page.dart';
+import 'open_text_page.dart';
+import 'save_text_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
+/// MyApp is the Main Application.
 class MyApp extends StatelessWidget {
+  /// Default Constructor
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'SharedPreferences Demo',
-      home: SharedPreferencesDemo(),
-    );
-  }
-}
-
-class SharedPreferencesDemo extends StatefulWidget {
-  const SharedPreferencesDemo({super.key});
-
-  @override
-  SharedPreferencesDemoState createState() => SharedPreferencesDemoState();
-}
-
-class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
-  final SharedPreferencesAsyncPlatform? _prefs =
-      SharedPreferencesAsyncPlatform.instance;
-  final SharedPreferencesLinuxOptions options =
-      const SharedPreferencesLinuxOptions();
-  static const String _counterKey = 'counter';
-  late Future<int> _counter;
-
-  Future<void> _incrementCounter() async {
-    final int? value = await _prefs!.getInt(_counterKey, options);
-    final int counter = (value ?? 0) + 1;
-
-    setState(() {
-      _counter = _prefs.setInt(_counterKey, counter, options).then((_) {
-        return counter;
-      });
-    });
-  }
-
-  Future<void> _getAndSetCounter() async {
-    setState(() {
-      _counter = _prefs!.getInt(_counterKey, options).then((int? counter) {
-        return counter ?? 0;
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getAndSetCounter();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('SharedPreferences Demo'),
+    return MaterialApp(
+      title: 'File Selector Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      body: Center(
-          child: FutureBuilder<int>(
-              future: _counter,
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                  case ConnectionState.waiting:
-                    return const CircularProgressIndicator();
-                  case ConnectionState.active:
-                  case ConnectionState.done:
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return Text(
-                        'Button tapped ${snapshot.data} time${snapshot.data == 1 ? '' : 's'}.\n\n'
-                        'This should persist across restarts.',
-                      );
-                    }
-                }
-              })),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      home: const HomePage(),
+      routes: <String, WidgetBuilder>{
+        '/open/image': (BuildContext context) => const OpenImagePage(),
+        '/open/images': (BuildContext context) =>
+            const OpenMultipleImagesPage(),
+        '/open/text': (BuildContext context) => const OpenTextPage(),
+        '/save/text': (BuildContext context) => SaveTextPage(),
+        '/directory': (BuildContext context) => const GetDirectoryPage(),
+        '/multi-directories': (BuildContext context) =>
+            const GetMultipleDirectoriesPage()
+      },
     );
   }
 }
