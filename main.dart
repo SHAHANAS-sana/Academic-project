@@ -1,45 +1,25 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:flutter/material.dart';
+import 'dart:ui' show PointerDeviceKind;
+import 'package:roadmate/user_home/core/app_theme.dart';
+import 'package:roadmate/user_home/src/view/screen/intro_screen.dart';
 
-import 'get_directory_page.dart';
-import 'get_multiple_directories_page.dart';
-import 'home_page.dart';
-import 'open_image_page.dart';
-import 'open_multiple_images_page.dart';
-import 'open_text_page.dart';
-import 'save_text_page.dart';
+void main() => runApp(const MyApp());
 
-void main() {
-  runApp(const MyApp());
-}
-
-/// MyApp is the Main Application.
 class MyApp extends StatelessWidget {
-  /// Default Constructor
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'File Selector Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+      debugShowCheckedModeBanner: false,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch,
+        },
       ),
-      home: const HomePage(),
-      routes: <String, WidgetBuilder>{
-        '/open/image': (BuildContext context) => const OpenImagePage(),
-        '/open/images': (BuildContext context) =>
-            const OpenMultipleImagesPage(),
-        '/open/text': (BuildContext context) => const OpenTextPage(),
-        '/save/text': (BuildContext context) => SaveTextPage(),
-        '/directory': (BuildContext context) => const GetDirectoryPage(),
-        '/multi-directories': (BuildContext context) =>
-            const GetMultipleDirectoriesPage()
-      },
+      home: const IntroScreen(),
+      theme: AppTheme.lightTheme,
     );
   }
 }
