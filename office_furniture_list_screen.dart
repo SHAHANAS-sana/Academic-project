@@ -1,26 +1,44 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:roadmate/lgn/login_screen.dart';
 import 'package:roadmate/login.dart';
-
+import 'package:roadmate/user/add_reminder.dart';
+import 'package:roadmate/user/chat%20bot.dart';
+import 'package:roadmate/user/ev_payment_history.dart';
+import 'package:roadmate/user/fuelpredictionbasedondataset.dart';
+import 'package:roadmate/user/history.dart';
+import 'package:roadmate/user/request_ev.dart';
+import 'package:roadmate/user/send_complaint.dart';
+import 'package:roadmate/user/send_review.dart';
+import 'package:roadmate/user/view_booking.dart';
+import 'package:roadmate/user/view_complaint.dart';
+import 'package:roadmate/user/view_evpoint.dart';
+import 'package:roadmate/user/view_fuelreq_status.dart';
+import 'package:roadmate/user/view_near_by_station.dart';
+import 'package:roadmate/user/view_nearby_wrkr.dart';
+import 'package:roadmate/user/view_previous_booking.dart';
+import 'package:roadmate/user/view_reminder.dart';
+import 'package:roadmate/user/view_req_service_status.dart';
+import 'package:roadmate/user/wrkr_payment_history.dart';
+import 'package:roadmate/user_home/core/app_data.dart';
 import 'package:roadmate/user_home/core/app_style.dart';
-import 'package:roadmate/worker/wrkr_add_service.dart';
-import 'package:roadmate/worker/wrkr_approved_req_service.dart';
-import 'package:roadmate/worker/wrkr_rejected_req_service.dart';
-import 'package:roadmate/worker/wrkr_view_payment.dart';
-import 'package:roadmate/worker/wrkr_view_service.dart';
-import 'package:roadmate/worker/wrkr_view_service_req.dart';
+import 'package:roadmate/user_home/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-
-class OfficeFurnitureListScreen1 extends StatefulWidget {
-  const OfficeFurnitureListScreen1({super.key});
+class OfficeFurnitureListScreen extends StatefulWidget {
+  const OfficeFurnitureListScreen({super.key});
 
   @override
-  State<OfficeFurnitureListScreen1> createState() =>
-      _OfficeFurnitureListScreen1_state();
+  State<OfficeFurnitureListScreen> createState() =>
+      _OfficeFurnitureListScreen_state();
 }
 
-class _OfficeFurnitureListScreen1_state extends State<OfficeFurnitureListScreen1> {
-
+class _OfficeFurnitureListScreen_state extends State<OfficeFurnitureListScreen> {
+  _OfficeFurnitureListScreen_state() {
+    _send_data();
+  }
 
   PreferredSize _appBar() {
     return PreferredSize(
@@ -34,7 +52,7 @@ class _OfficeFurnitureListScreen1_state extends State<OfficeFurnitureListScreen1
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Worker", style: h2Style),
+                  Text(name_, style: h2Style),
                   Text("Welcome to Roadmate", style: h3Style),
                 ],
               ),
@@ -99,85 +117,96 @@ class _OfficeFurnitureListScreen1_state extends State<OfficeFurnitureListScreen1
 
   // Function to navigate to different pages based on the item tapped
   void navigateToPage(String furnitureName) {
+
+    print(furnitureName);
+    print("hello");
     switch (furnitureName) {
-      // case 'Ev Stations':
-      //   // Navigator.push(context, MaterialPageRoute(builder: (context)=>view_EV_usr(title:"view ev point")));
-      //   break;
-      // case 'Fuel Stations':
-      //   // Navigator.push(context, MaterialPageRoute(builder: (context)=>view_nearby_fuel_station(title: "view fuelstation")));
-      //
-      //   break;
-      // case 'Work Stations':
-      //   // Navigator.push(context, MaterialPageRoute(builder: (context)=>nearby_wrkr(title: "view worker")));
-      //
-      //   break;
-      // case 'View Booking':
-      //   // Navigator.push(context, MaterialPageRoute(builder: (context)=>view_booking(title:"view booking")));
-      //
-      //   break;
-      // case 'Slot Booking History':
-      //   // Navigator.push(context, MaterialPageRoute(builder: (context)=>history_usr(title:"booking history")));
-      //
-      //   break;
-      // case 'Previous Booking History':
-      //   // Navigator.push(context, MaterialPageRoute(builder: (context)=>previous_bookings(title:"previous booking")));
-      //
-      //   break;
-      //
-      // case 'View Request Service Status':
-      //   // Navigator.push(context, MaterialPageRoute(builder: (context)=>user_view_req_service_status(title:"view req")));
-      //
-      //   break;
 
-      case 'Add Service':
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>AddService(title: "add service")));
+      case 'Ev Stations':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>view_EV_usr(title:"view ev point")));
+        break;
+      case 'FuelHub':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>view_nearby_fuel_station(title: "view fuelstation")));
+
+        break;
+      case 'WorkZone':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>nearby_wrkr(title: "view worker")));
+
+        break;
+      case 'BookView':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>view_booking(title:"view booking")));
+
+        break;
+      case 'Book Hist':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>history_usr(title:"booking history")));
 
         break;
 
-      case 'View Service':
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>WrkrViewService(title: "view service")));
+      case 'PrevBook ':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>previous_bookings(title:"previous booking")));
+        break;
+
+      case 'ServStatus':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>user_view_req_service_status(title:"view req")));
 
         break;
 
-      case 'View servreq':
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>wrkr_view_service_req(title:"view service request")));
+      case 'EV Status':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>user_view_req_service_status_ev(title:"view req ev")));
 
         break;
 
-      case 'Approved Service':
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>wrkr_view_approved_req(title:"view approved service request")));
+      case 'Fuel Status':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>user_view_fuel_req_status(title:"view req fuel staff")));
 
         break;
 
-      case 'Rejected Service':
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>wrkr_view_rejected_req(title:"view rejected service request")));
+      case 'EVPay Hist':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>EvPaymentHistory(title:"ev payment history")));
 
         break;
 
-      case 'Payment':
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>view_payment_wrkr(title:"view payment")));
+      case 'WrkrPayHist':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>wrkr_payment_history(title:"worker payment history")));
+
+        break;
+
+      case 'Reminde':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>AddReminder(title:"add reminder")));
+
+        break;
+
+      case 'RemindView':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewReminder(title:"view reminder")));
+
+        break;
+
+      case 'Send Comp':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SendComplaintScreen(title: "send complaint")));
+
+        break;
+
+      case 'View Comp':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewComplaintScreen(title: "View complaint")));
+
+        break;
+
+      case 'Chatbot':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen(title: "Chatbot")));
+
         break;
 
 
-      //
-      // case 'Send Complaint':
-      //   Navigator.push(context, MaterialPageRoute(builder: (context)=>sendcomplaint(title: "send complaint")));
-      //
-      //   break;
-      //
-      // case 'Send Complaint':
-      //   Navigator.push(context, MaterialPageRoute(builder: (context)=>view_complaint(title: "View complaint")));
-      //
-      //   break;
-      //   case 'View Complaint':
-      // Navigator.push(context, MaterialPageRoute(builder: (context)=>view_complaint(title: "View complaint")));
-      //
-      //   break;
+      case 'Prediction':
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>PricePrediction(title: "Prediction")));
 
-      // case 'Review':
-      //   Navigator.push(context, MaterialPageRoute(builder: (context)=>send_review_usr(title: "send review")));
-      //
-      //   break;
+        break;
+
+
+    // case 'Review':
+    //   Navigator.push(context, MaterialPageRoute(builder: (context)=>send_review_usr(title: "send review")));
+    //
+    //   break;
 
 
 
@@ -188,22 +217,23 @@ class _OfficeFurnitureListScreen1_state extends State<OfficeFurnitureListScreen1
   Widget build(BuildContext context) {
     // List of furniture names and images
     List<String> furnitureNames = [
-      "Add Service",
-      "View Service",
-      "View servreq",
-      "Approved Service",
-      "Rejected Service",
-      "Payment",
-      // "Previous Booking History",
-      // "View Request Service Status",
-      // "View Request EV Status",
-      // "View Request Fuel Status",
-      // "View EV Payment History",
-      // "View Worker Payment History",
-      // "Add Reminder",
-      // "View Reminder",
-      // "Send Complaint",
-      // "View Complaint",
+      "Ev Stations",
+      "FuelHub",
+      "WorkZone",
+      "BookView",
+      "Book Hist",
+      "PrevBook ",
+      "ServStatus",
+      "EV Status",
+      "Fuel Status",
+      "EVPay Hist",
+      "WrkrPayHist",
+      "Reminde",
+      "RemindView",
+      "Send Comp",
+      "View Comp",
+      "Chatbot",
+      "Prediction",
       // "Review",
 
 
@@ -211,23 +241,23 @@ class _OfficeFurnitureListScreen1_state extends State<OfficeFurnitureListScreen1
 
     // List of images (make sure the images exist in your assets folder)
     List<String> furnitureImages = [
-      'assets/images/addservice.jpg',
-      'assets/images/viewservice.jpg',
-      'assets/images/Paymentwrk.jpg',
-      'assets/images/approve.jpg',
-      'assets/images/reject.jpg',
-      'assets/images/Paymentwrk.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
-      // 'assets/furniture_5.jpg',
+      'assets/images/ev.jpg',
+      'assets/images/fuel.jpg',
+      'assets/images/wrk.jpeg',
+      'assets/images/view booking.webp',
+      'assets/images/bookhis.jpg',
+      'assets/images/bookhis.jpg',
+      'assets/images/servicereq.jpg',
+      'assets/images/evstatus.jpg',
+      'assets/images/fuelstatus.jpg',
+      'assets/images/evpay.jpg',
+      'assets/images/wrkrpayhis.jpg',
+      'assets/images/addrim.jpg',
+      'assets/images/viewrim.jpg',
+      'assets/images/sndcomplaint.jpg',
+      'assets/images/sendcmplt.jpg',
+      'assets/images/chatbot.jpeg',
+      'assets/images/prediction.jpeg',
     ];
 
     return Scaffold(
@@ -243,12 +273,12 @@ class _OfficeFurnitureListScreen1_state extends State<OfficeFurnitureListScreen1
               shrinkWrap: true,  // To allow scrolling with the ListView
               physics: NeverScrollableScrollPhysics(), // Disable GridView scrolling
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,  // 2 columns per row
+                crossAxisCount: 3,  // 2 columns per row
                 crossAxisSpacing: 15,
                 mainAxisSpacing: 15,
                 childAspectRatio: 1.0, // Adjust the aspect ratio as needed
               ),
-              itemCount: 6, // Display 6 cards
+              itemCount: 17, // Display 6 cards
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
@@ -296,57 +326,57 @@ class _OfficeFurnitureListScreen1_state extends State<OfficeFurnitureListScreen1
     );
   }
 
-  // String name_ = "";
-  // String photo_ = "";
-  // String email_ = "";
-  // String phone_ = "";
-  // String place_ = "";
-  // String state_ = "";
-  // String city_ = "";
-  // String pin_ = "";
+  String name_ = "";
+  String photo_ = "";
+  String email_ = "";
+  String phone_ = "";
+  String place_ = "";
+  String state_ = "";
+  String city_ = "";
+  String pin_ = "";
 
-  // void _send_data() async {
-  //   SharedPreferences sh = await SharedPreferences.getInstance();
-  //   String url = sh.getString('url').toString();
-  //   String img = sh.getString('img_url').toString();
-  //   String lid = sh.getString('lid').toString();
-  //
-  //   final urls = Uri.parse('$url/User_view_profile_usr/');
-  //   try {
-  //     final response = await http.post(urls, body: {
-  //       'lid': lid
-  //     });
-  //     if (response.statusCode == 200) {
-  //       String status = jsonDecode(response.body)['status'];
-  //       if (status == 'ok') {
-  //         String name = jsonDecode(response.body)['name'];
-  //         String photo = img + jsonDecode(response.body)['photo'];
-  //         String email = jsonDecode(response.body)['email'];
-  //         String phone = jsonDecode(response.body)['phone'];
-  //         String place = jsonDecode(response.body)['place'];
-  //         String state = jsonDecode(response.body)['state'];
-  //         String city = jsonDecode(response.body)['city'];
-  //         String pin = jsonDecode(response.body)['pin'];
-  //         setState(() {
-  //           name_ = name;
-  //           photo_ = photo;
-  //           email_ = email;
-  //           phone_ = phone;
-  //           place_ = place;
-  //           state_ = state;
-  //           city_ = city;
-  //           pin_ = pin;
-  //         });
-  //       } else {
-  //         Fluttertoast.showToast(msg: 'Not Found');
-  //       }
-  //     } else {
-  //       Fluttertoast.showToast(msg: 'Network Error');
-  //     }
-  //   } catch (e) {
-  //     Fluttertoast.showToast(msg: e.toString());
-  //   }
-  // }
+  void _send_data() async {
+    SharedPreferences sh = await SharedPreferences.getInstance();
+    String url = sh.getString('url').toString();
+    String img = sh.getString('img_url').toString();
+    String lid = sh.getString('lid').toString();
+
+    final urls = Uri.parse('$url/User_view_profile_usr/');
+    try {
+      final response = await http.post(urls, body: {
+        'lid': lid
+      });
+      if (response.statusCode == 200) {
+        String status = jsonDecode(response.body)['status'];
+        if (status == 'ok') {
+          String name = jsonDecode(response.body)['name'];
+          String photo = img + jsonDecode(response.body)['photo'];
+          String email = jsonDecode(response.body)['email'];
+          String phone = jsonDecode(response.body)['phone'];
+          String place = jsonDecode(response.body)['place'];
+          String state = jsonDecode(response.body)['state'];
+          String city = jsonDecode(response.body)['city'];
+          String pin = jsonDecode(response.body)['pin'];
+          setState(() {
+            name_ = name;
+            photo_ = photo;
+            email_ = email;
+            phone_ = phone;
+            place_ = place;
+            state_ = state;
+            city_ = city;
+            pin_ = pin;
+          });
+        } else {
+          Fluttertoast.showToast(msg: 'Not Found');
+        }
+      } else {
+        Fluttertoast.showToast(msg: 'Network Error');
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
 }
 
 // Individual Pages for each furniture item

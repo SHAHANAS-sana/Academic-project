@@ -1,25 +1,26 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:roadmate/worker/wrkr_passwordchange.dart';
-import 'package:roadmate/worker/wrkr_view_profile.dart';
-import 'package:roadmate/worker/wrkr_view_review.dart';
-import 'package:roadmate/worker_home/core/app_color.dart';
-import 'package:roadmate/worker_home/core/app_data.dart';
-import 'package:roadmate/worker_home/src/view/screen/profile_screen.dart';
-import 'package:roadmate/worker_home/src/controller/office_furniture_controller.dart';
-import 'package:roadmate/worker_home/src/view/screen/office_furniture_list_screen.dart';
+import 'package:roadmate/user/send_review.dart';
+import 'package:roadmate/user/usr_passwordchange.dart';
+import 'package:roadmate/user_home/core/app_color.dart';
+import 'package:roadmate/user_home/core/app_data.dart';
+import 'package:roadmate/user_home/src/view/screen/cart_screen.dart';
+import 'package:roadmate/user_home/src/view/screen/profile_screen.dart';
+import 'package:roadmate/user_home/src/view/screen/favorite_screen.dart';
+import 'package:roadmate/user_home/src/controller/office_furniture_controller.dart';
+import 'package:roadmate/user_home/src/view/screen/office_furniture_list_screen.dart';
 
-final OfficeFurnitureController1 controller =
-    Get.put(OfficeFurnitureController1());
+final OfficeFurnitureController controller =
+    Get.put(OfficeFurnitureController());
 
-class HomeScreen1 extends StatelessWidget {
-  const HomeScreen1({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   final List<Widget> screens = const [
-    OfficeFurnitureListScreen1(),
-    passwordechangew(title:'Password'),
-    wrkr_view_review(title: 'Rating'),
-    worker_profile(title: '',)
+    OfficeFurnitureListScreen(),
+    passwordechange(title:'Password'),
+    SendReviewUsr(title: 'Rating'),
+    ProfileScreen()
   ];
 
   @override

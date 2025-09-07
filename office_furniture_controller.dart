@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:roadmate/user_home/core/app_extension.dart';
 import 'package:roadmate/user_home/src/model/furniture.dart';
 
-class OfficeFurnitureController1 extends GetxController {
+class OfficeFurnitureController extends GetxController {
   RxInt currentBottomNavItemIndex = 0.obs;
   RxInt currentPageViewItemIndicator = 0.obs;
   RxList<Furniture> cartFurniture = <Furniture>[].obs;
