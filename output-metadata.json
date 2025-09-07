@@ -1,7 +1,7 @@
 {
   "version": 3,
   "artifactType": {
-    "type": "PACKAGED_MANIFESTS",
+    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
     "kind": "Directory"
   },
   "applicationId": "io.flutter.plugins.urllauncher",
@@ -11,7 +11,7 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "outputFile": "../../merged_manifest/debug/AndroidManifest.xml"
+      "outputFile": "AndroidManifest.xml"
     }
   ],
   "elementType": "File"
