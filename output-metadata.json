@@ -1,17 +1,17 @@
 {
   "version": 3,
   "artifactType": {
-    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
+    "type": "PACKAGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.razorpay.razorpay_flutter",
+  "applicationId": "io.flutter.plugins.imagepicker",
   "variantName": "debug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "outputFile": "AndroidManifest.xml"
+      "outputFile": "../../merged_manifest/debug/AndroidManifest.xml"
     }
   ],
   "elementType": "File"
