@@ -4,7 +4,7 @@
     "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "io.flutter.plugins.sharedpreferences",
+  "applicationId": "com.razorpay.razorpay_flutter",
   "variantName": "debug",
   "elements": [
     {
