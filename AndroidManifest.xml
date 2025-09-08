@@ -9,7 +9,7 @@
     <application>
         <provider
             android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-            android:authorities="dollar_openBracket_applicationId_closeBracket.flutter.image_provider"
+            android:authorities="${applicationId}.flutter.image_provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
